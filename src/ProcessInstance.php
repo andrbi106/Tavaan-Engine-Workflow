@@ -4,30 +4,85 @@ declare(strict_types=1);
 
 namespace Tavaan\Engine\Workflow;
 
+/**
+ * ProcessInstance — runtime state of a workflow instance.
+ * Wraps a WorkflowInstance and exposes a richer API.
+ */
 final class ProcessInstance
 {
-    public function fire()
+    private bool $cancelled = false;
+    private bool $completed = false;
+
+    /**
+     * @param array<string, mixed> $variables
+     */
+    public function __construct(
+        public readonly WorkflowInstance $instance,
+        private array $variables = [],
+    ) {}
+
+    /**
+     * fire — execute a transition by action name.
+     */
+    public function fire(string $action): bool
     {
-        return null;
+        if ($this->cancelled || $this->completed) { return false; }
+        $ok = $this->instance->transition($action);
+        return $ok;
     }
-    public function currentState()
+
+    /**
+     * currentState — return current state name.
+     */
+    public function currentState(): string
     {
-        return null;
+        return $this->instance->getState();
     }
+
     public function can(string $permission): bool
     {
-        return $this->hasPermission($permission);
+        return $this->instance->can($permission);
     }
-    public function variables()
+
+    /**
+     * variables — return all process variables.
+     * @return array<string, mixed>
+     */
+    public function variables(): array
     {
-        return null;
+        return array_merge($this->instance->getContext(), $this->variables);
     }
-    public function complete()
+
+    /**
+     * setVariable — update a process variable.
+     */
+    public function setVariable(string $key, mixed $value): void
     {
-        return null;
+        $this->variables[$key] = $value;
+        $this->instance->setContext($key, $value);
     }
-    public function cancel()
+
+    /**
+     * complete — mark the instance as complete.
+     */
+    public function complete(): bool
     {
-        return null;
+        if ($this->completed || $this->cancelled) { return false; }
+        $this->completed = true;
+        return true;
     }
+
+    /**
+     * cancel — mark the instance as cancelled.
+     */
+    public function cancel(): bool
+    {
+        if ($this->cancelled || $this->completed) { return false; }
+        $this->cancelled = true;
+        return true;
+    }
+
+    public function isCompleted(): bool { return $this->completed; }
+    public function isCancelled(): bool { return $this->cancelled; }
+    public function availableActions(): array { return $this->instance->availableActions(); }
 }
