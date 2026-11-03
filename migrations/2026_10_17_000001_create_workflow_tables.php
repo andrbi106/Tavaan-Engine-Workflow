@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Tavaan\Core\Facade\Facades\Schema as SchemaFacade;
+use Tavaan\Engine\Database\Facades\Schema as SchemaFacade;
 use Tavaan\Engine\Database\Migration\Migration;
 use Tavaan\Engine\Database\Schema\Blueprint;
 
