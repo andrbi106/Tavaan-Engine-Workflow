@@ -1,2 +1,2 @@
 <?php
-return return ['error_workflow' => 'خطا در workflow.'];;
+return ['error_workflow' => 'خطا در workflow.'];
