@@ -15,4 +15,76 @@ use Tavaan\Engine\Workflow\ProcessInstance;
  * Generated from ROADMAP.md scenarios — real implementations, not placeholders.
  */
 final class WorkflowScenarioTest extends TestCase
-{'    public function t01_start_workflow_at_initial_state(): void\n    {\n        // Scenario T-01\n$def = new WorkflowDefinition("order");\n        $def->addState("pending")->addState("approved");\n        $def->setInitial("pending");\n        $def->addTransition("pending", "approved", "approve");\n        $mgr = new WorkflowManager();\n        $mgr->register($def);\n        $inst = $mgr->start("order");\n        $this->assertNotNull($inst);\n        $this->assertSame("pending", $inst->getState());\n    }\n    public function t02_fire_transition_changes_state(): void\n    {\n        // Scenario T-02\n$def = new WorkflowDefinition("wf");\n        $def->addState("a")->addState("b");\n        $def->setInitial("a");\n        $def->addTransition("a", "b", "go");\n        $mgr = new WorkflowManager();\n        $mgr->register($def);\n        $inst = $mgr->start("wf");\n        $ok = $inst->transition("go");\n        $this->assertTrue($ok);\n        $this->assertSame("b", $inst->getState());\n    }\n    public function t03_fire_invalid_action_returns_false(): void\n    {\n        // Scenario T-03\n$def = new WorkflowDefinition("wf");\n        $def->addState("a")->addState("b");\n        $def->setInitial("a");\n        $def->addTransition("a", "b", "go");\n        $mgr = new WorkflowManager();\n        $mgr->register($def);\n        $inst = $mgr->start("wf");\n        $this->assertFalse($inst->transition("invalid"));\n        $this->assertSame("a", $inst->getState());\n    }\n    public function t04_available_actions(): void\n    {\n        // Scenario T-04\n$def = new WorkflowDefinition("wf");\n        $def->addState("a")->addState("b")->addState("c");\n        $def->setInitial("a");\n        $def->addTransition("a", "b", "toB");\n        $def->addTransition("a", "c", "toC");\n        $mgr = new WorkflowManager();\n        $mgr->register($def);\n        $inst = $mgr->start("wf");\n        $actions = $inst->availableActions();\n        $this->assertCount(2, $actions);\n        $this->assertContains("toB", $actions);\n        $this->assertContains("toC", $actions);\n    }\n    public function t05_process_instance_complete_and_cancel(): void\n    {\n        // Scenario T-05\n$def = new WorkflowDefinition("wf");\n        $def->addState("a")->addState("b");\n        $def->setInitial("a");\n        $mgr = new WorkflowManager();\n        $mgr->register($def);\n        $inst = $mgr->start("wf");\n        $pi = new ProcessInstance($inst);\n        $this->assertFalse($pi->isCompleted());\n        $this->assertTrue($pi->complete());\n        $this->assertTrue($pi->isCompleted());\n        $this->assertFalse($pi->complete(), "double complete returns false");\n    }'}
+{
+    public function t01_start_workflow_at_initial_state(): void
+    {
+        // Scenario T-01
+$def = new WorkflowDefinition("order");
+        $def->addState("pending")->addState("approved");
+        $def->setInitial("pending");
+        $def->addTransition("pending", "approved", "approve");
+        $mgr = new WorkflowManager();
+        $mgr->register($def);
+        $inst = $mgr->start("order");
+        $this->assertNotNull($inst);
+        $this->assertSame("pending", $inst->getState());
+    }
+    public function t02_fire_transition_changes_state(): void
+    {
+        // Scenario T-02
+$def = new WorkflowDefinition("wf");
+        $def->addState("a")->addState("b");
+        $def->setInitial("a");
+        $def->addTransition("a", "b", "go");
+        $mgr = new WorkflowManager();
+        $mgr->register($def);
+        $inst = $mgr->start("wf");
+        $ok = $inst->transition("go");
+        $this->assertTrue($ok);
+        $this->assertSame("b", $inst->getState());
+    }
+    public function t03_fire_invalid_action_returns_false(): void
+    {
+        // Scenario T-03
+$def = new WorkflowDefinition("wf");
+        $def->addState("a")->addState("b");
+        $def->setInitial("a");
+        $def->addTransition("a", "b", "go");
+        $mgr = new WorkflowManager();
+        $mgr->register($def);
+        $inst = $mgr->start("wf");
+        $this->assertFalse($inst->transition("invalid"));
+        $this->assertSame("a", $inst->getState());
+    }
+    public function t04_available_actions(): void
+    {
+        // Scenario T-04
+$def = new WorkflowDefinition("wf");
+        $def->addState("a")->addState("b")->addState("c");
+        $def->setInitial("a");
+        $def->addTransition("a", "b", "toB");
+        $def->addTransition("a", "c", "toC");
+        $mgr = new WorkflowManager();
+        $mgr->register($def);
+        $inst = $mgr->start("wf");
+        $actions = $inst->availableActions();
+        $this->assertCount(2, $actions);
+        $this->assertContains("toB", $actions);
+        $this->assertContains("toC", $actions);
+    }
+    public function t05_process_instance_complete_and_cancel(): void
+    {
+        // Scenario T-05
+$def = new WorkflowDefinition("wf");
+        $def->addState("a")->addState("b");
+        $def->setInitial("a");
+        $mgr = new WorkflowManager();
+        $mgr->register($def);
+        $inst = $mgr->start("wf");
+        $pi = new ProcessInstance($inst);
+        $this->assertFalse($pi->isCompleted());
+        $this->assertTrue($pi->complete());
+        $this->assertTrue($pi->isCompleted());
+        $this->assertFalse($pi->complete(), "double complete returns false");
+    }
+}
