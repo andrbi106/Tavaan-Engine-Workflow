@@ -17,7 +17,7 @@ final class WorkflowTransition
         public readonly string $from,
         public readonly string $to,
         public readonly string $action,
-        public readonly ? $guard = null,
+        public readonly mixed $guard = null,
     ) {}
 }
 

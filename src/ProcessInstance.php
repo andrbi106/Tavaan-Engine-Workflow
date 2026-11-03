@@ -16,7 +16,7 @@ final class ProcessInstance
     }
     public function can(/* ... */): mixed
     {
-        return null;
+        return $this->hasPermission($userId, $permission);
     }
     public function variables(/* ... */): mixed
     {
