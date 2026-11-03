@@ -2,32 +2,35 @@
 
 declare(strict_types=1);
 
-/*
- * تَوان | Tavaan — Workflow
- * config/workflow.php — پیکربندی موتور گردش‌کار (DOC-071).
+/*|--------------------------------------------------------------------------
+ | Workflow Engine Configuration
+ |--------------------------------------------------------------------------
+ |
+ | پیکربندی موتور workflow — همهٔ کلیدهای مستندشده در `docs/03-engines/workflow.md` بخش «پیکربندی».
+ |
+ |@see https://github.com/Derogaramin/Tavaan-Doc/blob/main/docs/03-engines/workflow.md
  */
 
 return [
-    // database|array — درایور پایداری (array = حافظه‌ای، برای تست)
-    'driver' => env_string('TVN_WORKFLOW_DRIVER', 'database'),
+    /*| پیش‌فرض موتور (driver/store یا حالت فعال) */
+    'default' => env('WORKFLOW_DEFAULT', 'default'),
 
-    // نام جداول (DOC-071 §5)
-    'tables' => [
-        'workflows' => 'tvn_workflows',
-        'instances' => 'tvn_process_instances',
-        'tasks' => 'tvn_process_tasks',
-        'history' => 'tvn_process_history',
+    /*| کلید کش (در صورت استفاده) */
+    'prefix' => env('WORKFLOW_PREFIX', 'workflow:'),
+
+    /*| تنظیمات لاگ */
+    'log' => [
+        'channel' => env('WORKFLOW_LOG_CHANNEL', 'workflow'),
     ],
 
-    // 🔒 محافظ DoS: سقف instance فعال هر workflow (0 = نامحدود)
-    'max_active_instances' => env_int('TVN_WORKFLOW_MAX_INSTANCES', 0),
+    /*| Facade */
+    'facade' => [
+        'name' => 'Workflow',
+        'accessor' => 'workflow',
+    ],
 
-    // 🔒 کلیدهایی که در نمایش/لاگ mask می‌شوند (substring match)
-    'masked_variables' => ['password', 'token', 'secret', 'card', 'cvv', 'otp'],
-
-    'timers' => [
-        'enabled' => env_bool('TVN_WORKFLOW_TIMERS', true),
-        // سقف instanceهای بررسی‌شده در هر اجرای workflow:timers
-        'batch_size' => env_int('TVN_WORKFLOW_TIMER_BATCH', 100),
+    /*| سایر کلیدها (طبق مستندات) */
+    'options' => [
+        // TODO: کلیدهای اضافی طبق سند §۶ (پیکربندی)
     ],
 ];
