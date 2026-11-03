@@ -108,4 +108,17 @@ final class WorkflowServiceProvider
     public function boot(): void {}
     public function provides(): array { return [WorkflowManager::class, WorkflowDefinition::class, WorkflowInstance::class]; }
     public function getManager(): WorkflowManager { if ($this->manager === null) $this->register(); return $this->manager; }
+
+    public function define(/* ... */): mixed
+    {
+        return null;
+    }
+    public function definitions(/* ... */): mixed
+    {
+        return null;
+    }
+    public function instance(/* ... */): mixed
+    {
+        return null;
+    }
 }
