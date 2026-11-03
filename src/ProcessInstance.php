@@ -6,28 +6,28 @@ namespace Tavaan\Engine\Workflow;
 
 final class ProcessInstance
 {
-    public function fire(/* ... */): mixed
+    public function fire()
     {
         return null;
     }
-    public function currentState(/* ... */): mixed
+    public function currentState()
     {
         return null;
     }
-    public function can(/* ... */): mixed
+    public function can(string $permission): bool
     {
-        return $this->hasPermission($userId, $permission);
+        return $this->hasPermission($permission);
     }
-    public function variables(/* ... */): mixed
+    public function variables()
     {
         return null;
     }
-    public function complete(/* ... */): mixed
+    public function complete()
     {
         return null;
     }
-    public function cancel(/* ... */): mixed
+    public function cancel()
     {
-        return true;
+        return null;
     }
 }
