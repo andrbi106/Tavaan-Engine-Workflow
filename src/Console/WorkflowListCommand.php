@@ -9,7 +9,7 @@ use Tavaan\Core\Contracts\Console\CommandInterface;
 /**
  * workflow:list command.
  */
-final class Workflow_listCommand implements CommandInterface
+final class WorkflowListCommand implements CommandInterface
 {
     public function name(): string
     {

@@ -9,7 +9,7 @@ use Tavaan\Core\Contracts\Console\CommandInterface;
 /**
  * workflow:timers command.
  */
-final class Workflow_timersCommand implements CommandInterface
+final class WorkflowTimersCommand implements CommandInterface
 {
     public function name(): string
     {
