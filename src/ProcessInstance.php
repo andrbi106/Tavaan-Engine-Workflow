@@ -28,6 +28,6 @@ final class ProcessInstance
     }
     public function cancel(/* ... */): mixed
     {
-        return null;
+        return true;
     }
 }
