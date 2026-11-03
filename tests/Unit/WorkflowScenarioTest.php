@@ -16,7 +16,7 @@ use Tavaan\Engine\Workflow\ProcessInstance;
  */
 final class WorkflowScenarioTest extends TestCase
 {
-    public function t01_start_workflow_at_initial_state(): void
+    public function test_t01_start_workflow_at_initial_state(): void
     {
         // Scenario T-01
 $def = new WorkflowDefinition("order");
@@ -29,7 +29,7 @@ $def = new WorkflowDefinition("order");
         $this->assertNotNull($inst);
         $this->assertSame("pending", $inst->getState());
     }
-    public function t02_fire_transition_changes_state(): void
+    public function test_t02_fire_transition_changes_state(): void
     {
         // Scenario T-02
 $def = new WorkflowDefinition("wf");
@@ -43,7 +43,7 @@ $def = new WorkflowDefinition("wf");
         $this->assertTrue($ok);
         $this->assertSame("b", $inst->getState());
     }
-    public function t03_fire_invalid_action_returns_false(): void
+    public function test_t03_fire_invalid_action_returns_false(): void
     {
         // Scenario T-03
 $def = new WorkflowDefinition("wf");
@@ -56,7 +56,7 @@ $def = new WorkflowDefinition("wf");
         $this->assertFalse($inst->transition("invalid"));
         $this->assertSame("a", $inst->getState());
     }
-    public function t04_available_actions(): void
+    public function test_t04_available_actions(): void
     {
         // Scenario T-04
 $def = new WorkflowDefinition("wf");
@@ -72,7 +72,7 @@ $def = new WorkflowDefinition("wf");
         $this->assertContains("toB", $actions);
         $this->assertContains("toC", $actions);
     }
-    public function t05_process_instance_complete_and_cancel(): void
+    public function test_t05_process_instance_complete_and_cancel(): void
     {
         // Scenario T-05
 $def = new WorkflowDefinition("wf");
