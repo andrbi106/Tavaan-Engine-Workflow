@@ -11,7 +11,7 @@
     }
   },
   "providers": [
-    "Tavaan\\Engine\\Workflow\\WorkflowManagerServiceProvider"
+    "Tavaan\\Engine\\Workflow\\WorkflowServiceProvider"
   ],
   "requires": {
     "php": ">=8.2",
