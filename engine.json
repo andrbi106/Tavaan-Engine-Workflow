@@ -49,5 +49,6 @@
     "tvn_process_instances",
     "tvn_process_tasks",
     "tvn_process_history"
-  ]
+  ],
+  "class": "Tavaan\\Engine\\Workflow\\WorkflowEngine"
 }
